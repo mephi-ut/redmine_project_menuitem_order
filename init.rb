@@ -6,7 +6,7 @@ ActionDispatch::Callbacks.to_prepare do
 end
 
 Redmine::Plugin.register :redmine_project_menuitem_order do
-	name 'Redmine remove Homepage'
+	name 'Redmine project menu items order plugin'
 	description 'A plugin to change order of project menu items.'
 	url 'https://github.com/mephi-ut/redmine_project_menuitem_order'
 	author 'Dmitry Yu Okunev'
