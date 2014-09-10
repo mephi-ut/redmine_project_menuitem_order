@@ -19,6 +19,8 @@ Redmine::Plugin.register :redmine_project_menuitem_order do
 	delete_menu_item :project_menu, :gantt
 	delete_menu_item :project_menu, :settings
 	delete_menu_item :project_menu, :overview
+	delete_menu_item :project_menu, :rb_master_backlogs
+
 	menu :project_menu, :issues,	{ :controller => 'issues',	:action => 'index' }, :param => :project_id, :caption => :label_issue_plural, :first => true
 	menu :project_menu, :new_issue, { :controller => 'issues',	:action => 'new', :copy_from => nil }, :param => :project_id, :caption => :label_issue_new,
 		:html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }, :after => :issues
@@ -27,6 +29,8 @@ Redmine::Plugin.register :redmine_project_menuitem_order do
 	menu :project_menu, :gantt,	{ :controller => 'gantts',	:action => 'show' }, :param => :project_id, :caption => :label_gantt, :after => :calendar
 	menu :project_menu, :overview,	{ :controller => 'projects',	:action => 'overview' },	:last	=> true
 	menu :project_menu, :settings,	{ :controller => 'projects',	:action => 'settings' },	:before	=> :overview
+
+	menu :project_menu, :rb_master_backlogs, { :controller => :rb_master_backlogs, :action => :show }, :caption => :label_backlogs, :after => :activity, :param => :project_id, :if => Proc.new { Backlogs.configured? }
 
 end
 
