@@ -13,7 +13,20 @@ module RedmineProjectMenuItemsOrder
 						unless User.current.allowed_to?(:view_issues, @project) && @project.module_enabled?("issue_tracking")
 							show_without_redirect_to_issues_index
 						else
-							redirect_to :controller => 'issues', :action => 'index', :project_id => @project.identifier
+							query_id_str = ''
+							@project.custom_field_values.each do |cf|
+								if cf.custom_field.name == "Запрос по умолчанию (id)"
+									query_id_str = cf.value
+									break
+								end
+							end
+							if /\A\d+\z/.match(query_id_str)
+								# Is a positive number
+								query_id = query_id_str.to_i
+								redirect_to :controller => 'issues', :action => 'index', :project_id => @project.identifier , :query_id => query_id
+							else
+								redirect_to :controller => 'issues', :action => 'index', :project_id => @project.identifier
+							end
 						end
 					end
 
