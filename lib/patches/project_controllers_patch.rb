@@ -13,6 +13,11 @@ module RedmineProjectMenuItemsOrder
 						unless User.current.allowed_to?(:view_issues, @project) && @project.module_enabled?("issue_tracking")
 							show_without_redirect_to_issues_index
 						else
+							case params[:format]
+								when 'xml', 'json'
+									return show_without_redirect_to_issues_index
+							end
+
 							query_id_str = ''
 							@project.custom_field_values.each do |cf|
 								if cf.custom_field.name == "Запрос по умолчанию (id)"
